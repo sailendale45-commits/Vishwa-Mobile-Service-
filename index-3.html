@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vishwa Mobile Service</title>
+<meta name="theme-color" content="#0b5ed7">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<style>
+:root{--b:#0b5ed7;--bd:#084298;--bl:#eaf2ff;--ln:#d6e4fb;--tx:#10243e;--mu:#5b6f8a}
+*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,Roboto,sans-serif;color:var(--tx);background:#f6f9ff;padding-bottom:76px}
+header{background:var(--b);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0;font-size:19px}header small{opacity:.85;display:block;font-size:12px}
+main{max-width:640px;margin:0 auto;padding:14px}
+.card{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:14px;margin-bottom:12px}
+h2{font-size:18px;margin:4px 0 10px}label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #b9cdea;border-radius:8px;font:inherit;background:#fff}
+button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:11px 16px;background:var(--b);color:#fff;margin-top:12px}
+button.s{background:var(--bl);color:var(--bd);margin:6px 6px 0 0;padding:8px 12px}button.r{background:#fde8e8;color:#b42318}
+button.w{width:100%}.row{display:flex;gap:8px}.row>*{flex:1}
+.badge{display:inline-block;background:var(--bl);color:var(--bd);border-radius:20px;padding:3px 10px;font-size:13px;font-weight:700}
+.badge.x{background:#fde8e8;color:#b42318}.mu{color:var(--mu);font-size:14px}
+.bar{height:6px;background:var(--bl);border-radius:6px;margin:10px 0}.bar i{display:block;height:100%;background:var(--b);border-radius:6px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--ln);display:flex}
+nav a{flex:1;text-align:center;padding:14px 4px;color:var(--mu);font-weight:600;font-size:14px}nav a.on{color:var(--b);box-shadow:inset 0 3px var(--b)}
+.ok{background:var(--bl);border:1px solid var(--b);border-radius:12px;padding:16px;margin-bottom:12px;font-weight:600;color:var(--bd)}
+.toast{position:fixed;left:12px;right:12px;bottom:90px;background:#10243e;color:#fff;padding:12px;border-radius:8px;z-index:9}
+.li{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln)}.li:last-child{border:0}
+a{color:var(--b)}
+</style></head><body>
+<header><div><h1>Vishwa Mobile Service</h1><small id="sub">Mobile repair at your door</small></div><span id="who"></span></header>
+<main id="app"></main><nav id="nav"></nav>
+<script>
+// ===== Firebase settings (public web config, safe to keep here; security comes from Firestore rules) =====
+const cfg={apiKey:"AIzaSyCLWOkNMHg-OANEOf2s-uszhwlitn_6OmM",authDomain:"vishwa-mobile-service.firebaseapp.com",projectId:"vishwa-mobile-service",storageBucket:"vishwa-mobile-service.firebasestorage.app",messagingSenderId:"487507469853",appId:"1:487507469853:web:2d24c9374b3d36fc14c8f4"};
+// ======================================================================
+const BASES=['https://www.gstatic.com/firebasejs/10.12.2/firebase-','https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-'];
+const LIBS=['app','auth','firestore'];
+function loadJs(src){return new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.append(s)})}
+function msg(t){document.getElementById('app').innerHTML='<div class="card"><h2>Setup needed</h2>'+t+'</div>'}
+async function boot(){
+ if(Object.values(cfg).some(v=>!v||String(v).startsWith('PASTE'))){
+  msg('<p>Your Firebase settings are not added yet. Open <b>index.html</b>, find the line starting with <b>const cfg</b>, and replace each PASTE_... text with the matching value from Firebase (Project settings, Your apps, Web app).</p>');return}
+ for(const b of BASES){
+  try{for(const l of LIBS)await loadJs(b+l+'-compat.js');if(window.firebase&&firebase.auth&&firebase.firestore)break}catch(e){}}
+ if(!(window.firebase&&firebase.auth&&firebase.firestore)){
+  msg('<p>Could not load Firebase. Check your internet. If you are in a preview window, publish the app on GitHub Pages and open it there.</p>');return}
+ const s=document.createElement('script');s.textContent=document.getElementById('appcode').textContent;document.body.append(s)}
+boot();
+</script>
+<script type="text/plain" id="appcode">
+firebase.initializeApp(cfg);const auth=firebase.auth(),db=firebase.firestore();
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STEPS=['Pending','Approved','Technician on the way','Device picked up','Repairing','Ready for delivery','Completed'];
+const SLOTS=['9 AM - 12 PM','12 PM - 3 PM','3 PM - 6 PM','6 PM - 8 PM'];
+let me=null,admin=false,tab='book',sent=false,login=false,unsubs=[],D={bookings:[],rates:[],technicians:[],stock:[]};
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),3500)}
+function listen(c,q){return (q||db.collection(c)).onSnapshot(s=>{D[c]=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>toast(e.message))}
+auth.onAuthStateChanged(async u=>{unsubs.forEach(f=>f());unsubs=[];
+ if(!u){try{await auth.signInAnonymously()}catch(e){$('#app').innerHTML='<div class="card">Could not start. Check internet and Firebase setup.<br>'+esc(e.message)+'</div>'}return}
+ me=u;admin=false;
+ if(!u.isAnonymous){const a=await db.doc('admins/'+u.uid).get();admin=a.exists;if(!admin){toast('This account is not an admin.');await auth.signOut();return}}
+ unsubs.push(listen('rates'));
+ if(admin){['bookings','technicians','stock'].forEach(c=>unsubs.push(listen(c)));tab='bookings';login=false}
+ else{unsubs.push(listen('bookings',db.collection('bookings').where('uid','==',u.uid)));if(tab==='bookings')tab='book'}
+ render()});
+function go(t){tab=t;sent=false;login=false;render()}
+function render(){if(!me)return;
+ $('#who').innerHTML=admin?'<button class="s" style="margin:0" onclick="auth.signOut()">Log out</button>':'';
+ $('#sub').textContent=admin?'Admin dashboard':'Mobile repair at your door';
+ const tabs=admin?[['bookings','Bookings'],['rates','Rates'],['technicians','Technicians'],['stock','Stock']]:[['book','Book repair'],['mine','My bookings']];
+ $('#nav').innerHTML=tabs.map(([k,l])=>`<a href="#" class="${tab===k&&!login?'on':''}" onclick="go('${k}');return false">${l}</a>`).join('');
+ const v={book:bookV,mine:mineV,bookings:adminBookV,rates:ratesV,technicians:techV,stock:stockV};
+ $('#app').innerHTML=login?loginV():v[tab]()+(admin?'':'<p style="text-align:center"><a href="#" onclick="login=true;render();return false" class="mu">Staff login</a></p>')}
+function bookV(){const today=new Date().toISOString().slice(0,10);
+ return (sent?'<div class="ok">Your booking request has been sent to Vishwa Mobile Service. Please wait for approval.</div>':'')+
+ `<form class="card" onsubmit="book(event)"><h2>Book a repair</h2>
+ <label>Service</label><select name="service"><option value="home">Home repair - technician visits you</option><option value="pickup">Pickup and delivery</option></select>
+ <label>Your name</label><input name="name" required><label>Phone number</label><input name="phone" type="tel" pattern="[0-9+ ]{10,15}" required>
+ <label>Mobile model</label><input name="model" placeholder="e.g. Redmi Note 11" required>
+ <label>Repair problem</label><input name="problem" list="rl" placeholder="e.g. Screen broken" required><datalist id="rl">${D.rates.map(r=>`<option value="${esc(r.name)}">`).join('')}</datalist>
+ <label>Address</label><textarea name="address" rows="2" required></textarea>
+ <div class="row"><div><label>Date</label><input name="date" type="date" min="${today}" required></div><div><label>Time slot</label><select name="slot">${SLOTS.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
+ <button class="w">Send booking request</button></form>`+
+ (D.rates.length?`<div class="card"><h2>Repair rates</h2>${D.rates.map(r=>`<div class="li"><span>${esc(r.name)}</span><b>Rs ${esc(r.price)}</b></div>`).join('')}<p class="mu">Final price is confirmed after checking your phone.</p></div>`:'')}
+async function book(e){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));
+ try{await db.collection('bookings').add({uid:me.uid,name:o.name.trim(),phone:o.phone.trim(),model:o.model.trim(),problem:o.problem.trim(),service:o.service,address:o.address.trim(),date:o.date,slot:o.slot,status:'Pending',tech:null,createdAt:firebase.firestore.FieldValue.serverTimestamp()});sent=true;render();scrollTo(0,0)}catch(x){toast('Could not send: '+x.message)}}
+const byNew=a=>[...a].sort((x,y)=>(y.createdAt?.seconds||9e9)-(x.createdAt?.seconds||9e9));
+function bar(s){const i=STEPS.indexOf(s);return i<0?'':`<div class="bar"><i style="width:${(i+1)/STEPS.length*100}%"></i></div>`}
+function mineV(){if(!D.bookings.length)return '<div class="card"><h2>No bookings yet</h2><p class="mu">Tap Book repair to send your first request.</p></div>';
+ return byNew(D.bookings).map(b=>`<div class="card"><span class="badge ${b.status==='Rejected'?'x':''}">${esc(b.status)}</span>${bar(b.status)}
+ <b>${esc(b.model)}</b> - ${esc(b.problem)}<br><span class="mu">${b.service==='home'?'Home repair':'Pickup and delivery'} - ${esc(b.date)}, ${esc(b.slot)}</span>
+ ${b.status==='Pending'?'<p class="mu">Waiting for approval from Vishwa Mobile Service.</p>':''}
+ ${b.status==='Rejected'?'<p class="mu">Sorry, this request could not be accepted. Please book another slot or call us.</p>':''}
+ ${b.tech?`<p>Technician: <b>${esc(b.tech.name)}</b><br><a href="tel:${esc(b.tech.phone)}">${esc(b.tech.phone)}</a></p>`:''}</div>`).join('')}
+function loginV(){return `<form class="card" onsubmit="doLogin(event)"><h2>Admin login</h2><label>Email</label><input name="e" type="email" required><label>Password</label><input name="p" type="password" required><button class="w">Log in</button><button type="button" class="s w" onclick="login=false;render()">Back</button></form>`}
+async function doLogin(e){e.preventDefault();const f=new FormData(e.target);try{await auth.signInWithEmailAndPassword(f.get('e'),f.get('p'))}catch(x){toast('Login failed: '+x.message)}}
+function adminBookV(){if(!D.bookings.length)return '<div class="card"><h2>No bookings yet</h2></div>';
+ return byNew(D.bookings).map(b=>`<div class="card"><span class="badge ${b.status==='Rejected'?'x':''}">${esc(b.status)}</span>
+ <p><b>${esc(b.name)}</b> - <a href="tel:${esc(b.phone)}">${esc(b.phone)}</a><br>${esc(b.model)} - ${esc(b.problem)}<br>
+ <span class="mu">${b.service==='home'?'Home repair':'Pickup and delivery'} - ${esc(b.date)}, ${esc(b.slot)}<br>${esc(b.address)}</span></p>
+ ${b.tech?`<p class="mu">Technician: ${esc(b.tech.name)} (${esc(b.tech.phone)})</p>`:''}
+ ${b.status==='Pending'?`<label>Assign technician</label><select id="t${b.id}"><option value="">Choose technician</option>${D.technicians.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</select>
+ <button class="s" onclick="approve('${b.id}')">Approve</button><button class="s r" onclick="upd('${b.id}','Rejected')">Reject</button>`
+ :b.status==='Rejected'?'':`<label>Repair status</label><select onchange="upd('${b.id}',this.value)">${STEPS.slice(1).map(s=>`<option ${s===b.status?'selected':''}>${s}</option>`).join('')}</select>`}</div>`).join('')}
+async function upd(id,s){try{await db.doc('bookings/'+id).update({status:s})}catch(x){toast(x.message)}}
+async function approve(id){const t=D.technicians.find(x=>x.id===$('#t'+id).value);if(!t)return toast('Add technicians first, then choose one.');
+ try{await db.doc('bookings/'+id).update({status:'Approved',tech:{name:t.name,phone:t.phone}})}catch(x){toast(x.message)}}
+async function add(e,c,f){e.preventDefault();const o={};f.forEach(k=>o[k]=e.target[k].value.trim());if(c==='stock')o.qty=Number(o.qty);
+ try{await db.collection(c).add(o);e.target.reset()}catch(x){toast(x.message)}}
+async function del(c,id){if(confirm('Delete this item?'))db.doc(c+'/'+id).delete().catch(x=>toast(x.message))}
+async function edit(c,id,k,cur){const v=prompt('New value',cur);if(v===null)return;db.doc(c+'/'+id).update({[k]:k==='qty'?Number(v):v.trim()}).catch(x=>toast(x.message))}
+function ratesV(){return `<form class="card" onsubmit="add(event,'rates',['name','price'])"><h2>Add repair rate</h2><label>Repair name</label><input name="name" required><label>Price (Rs)</label><input name="price" type="number" min="0" required><button class="w">Add rate</button></form>
+ <div class="card"><h2>Rates</h2>${D.rates.map(r=>`<div class="li"><span>${esc(r.name)}<br><b>Rs ${esc(r.price)}</b></span><span><button class="s" onclick="edit('rates','${r.id}','price','${esc(r.price)}')">Change</button><button class="s r" onclick="del('rates','${r.id}')">Delete</button></span></div>`).join('')||'<p class="mu">No rates yet.</p>'}</div>`}
+function techV(){return `<form class="card" onsubmit="add(event,'technicians',['name','phone'])"><h2>Add technician</h2><label>Name</label><input name="name" required><label>Phone</label><input name="phone" type="tel" required><button class="w">Add technician</button></form>
+ <div class="card"><h2>Technicians</h2>${D.technicians.map(t=>`<div class="li"><span>${esc(t.name)}<br><span class="mu">${esc(t.phone)}</span></span><button class="s r" onclick="del('technicians','${t.id}')">Delete</button></div>`).join('')||'<p class="mu">No technicians yet.</p>'}</div>`}
+function stockV(){return `<form class="card" onsubmit="add(event,'stock',['name','qty'])"><h2>Add spare part</h2><label>Part name</label><input name="name" placeholder="e.g. Redmi Note 11 screen" required><label>Quantity</label><input name="qty" type="number" min="0" required><button class="w">Add part</button></form>
+ <div class="card"><h2>Spare-parts stock</h2>${D.stock.map(s=>`<div class="li"><span>${esc(s.name)}<br><b ${s.qty<3?'style="color:#b42318"':''}>${esc(s.qty)} in stock</b></span><span><button class="s" onclick="edit('stock','${s.id}','qty','${esc(s.qty)}')">Change</button><button class="s r" onclick="del('stock','${s.id}')">Delete</button></span></div>`).join('')||'<p class="mu">No parts yet.</p>'}</div>`}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
