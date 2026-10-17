@@ -1,124 +1,68 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Vishwa Mobile Service</title>
-<meta name="theme-color" content="#0b5ed7">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon-192.png">
 <style>
-:root{--b:#0b5ed7;--bd:#084298;--bl:#eaf2ff;--ln:#d6e4fb;--tx:#10243e;--mu:#5b6f8a}
-*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,Roboto,sans-serif;color:var(--tx);background:#f6f9ff;padding-bottom:76px}
-header{background:var(--b);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center}
-header h1{margin:0;font-size:19px}header small{opacity:.85;display:block;font-size:12px}
-main{max-width:640px;margin:0 auto;padding:14px}
-.card{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:14px;margin-bottom:12px}
-h2{font-size:18px;margin:4px 0 10px}label{display:block;font-size:14px;font-weight:600;margin:10px 0 4px}
-input,select,textarea{width:100%;padding:11px;border:1px solid #b9cdea;border-radius:8px;font:inherit;background:#fff}
-button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:11px 16px;background:var(--b);color:#fff;margin-top:12px}
-button.s{background:var(--bl);color:var(--bd);margin:6px 6px 0 0;padding:8px 12px}button.r{background:#fde8e8;color:#b42318}
-button.w{width:100%}.row{display:flex;gap:8px}.row>*{flex:1}
-.badge{display:inline-block;background:var(--bl);color:var(--bd);border-radius:20px;padding:3px 10px;font-size:13px;font-weight:700}
-.badge.x{background:#fde8e8;color:#b42318}.mu{color:var(--mu);font-size:14px}
-.bar{height:6px;background:var(--bl);border-radius:6px;margin:10px 0}.bar i{display:block;height:100%;background:var(--b);border-radius:6px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--ln);display:flex}
-nav a{flex:1;text-align:center;padding:14px 4px;color:var(--mu);font-weight:600;font-size:14px}nav a.on{color:var(--b);box-shadow:inset 0 3px var(--b)}
-.ok{background:var(--bl);border:1px solid var(--b);border-radius:12px;padding:16px;margin-bottom:12px;font-weight:600;color:var(--bd)}
-.toast{position:fixed;left:12px;right:12px;bottom:90px;background:#10243e;color:#fff;padding:12px;border-radius:8px;z-index:9}
-.li{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln)}.li:last-child{border:0}
-a{color:var(--b)}
-</style></head><body>
-<header><div><h1>Vishwa Mobile Service</h1><small id="sub">Mobile repair at your door</small></div><span id="who"></span></header>
-<main id="app"><div class="card"><h2>Loading...</h2><p class="mu">Starting Vishwa Mobile Service. If this stays here, a red message will appear with the reason.</p></div></main><noscript><p style="padding:16px">Please turn on JavaScript.</p></noscript><nav id="nav"></nav>
+:root{--blue:#0757b8;--blue2:#0d75df;--bg:#f3f7fc;--ink:#14243a;--muted:#64748b;--line:#dce6f2;--green:#087f5b;--red:#b42318}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif}header{background:linear-gradient(130deg,#064a9d,#1687ee);color:white;padding:22px 16px 26px;border-radius:0 0 22px 22px}header h1{margin:0 0 6px;font-size:25px}header p{margin:0;opacity:.92;font-size:14px}.wrap{max-width:760px;margin:0 auto;padding:14px}.nav{display:flex;gap:8px;overflow:auto;margin:0 0 14px}.nav button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--ink);border-radius:12px;padding:11px 14px;font-weight:700}.nav button.active{background:var(--blue);color:white;border-color:var(--blue)}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;margin:0 0 14px;box-shadow:0 3px 12px #14365b0b}.card h2{font-size:18px;margin:0 0 12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin:0 0 12px}.field.full{grid-column:1/-1}label{display:block;font-size:13px;font-weight:700;margin:0 0 6px}input,select,textarea{font:inherit;width:100%;border:1px solid #cbd7e6;border-radius:10px;padding:12px;background:#fff;color:var(--ink)}textarea{min-height:80px;resize:vertical}button.primary,button.small,button.danger{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer}button.primary{background:var(--blue);color:#fff;width:100%}button.primary:disabled{opacity:.6}button.small{background:#e8f2ff;color:#0757b8;margin:3px 4px 3px 0}button.danger{background:#fff0ef;color:var(--red);margin:3px 4px 3px 0}.muted{color:var(--muted);font-size:13px}.ok{background:#e7f8ef;color:#086b45;border:1px solid #b8e8cd;border-radius:10px;padding:12px;margin:0 0 12px}.error{background:#fff0ef;color:#a11b14;border-radius:10px;padding:12px;margin:0 0 12px}.item{border:1px solid var(--line);border-radius:12px;padding:13px;margin:10px 0}.item h3{margin:0 0 8px;font-size:16px}.badge{display:inline-block;border-radius:20px;background:#e8f2ff;color:#0757b8;font-size:12px;font-weight:700;padding:5px 9px;margin:2px 0 7px}.actions{margin-top:9px}.hidden{display:none!important}.section-title{margin:18px 0 10px;font-size:16px}.empty{padding:18px;text-align:center;color:var(--muted)}footer{text-align:center;padding:15px;color:var(--muted);font-size:12px}@media(max-width:520px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}header h1{font-size:22px}.wrap{padding:11px}}
+</style>
+</head>
+<body>
+<header><h1>Vishwa Mobile Service</h1><p>Mobile repair at your door</p></header>
+<main class="wrap">
+<div id="notice"></div>
+<div class="nav" id="nav"><button class="active" data-tab="book">Book a repair</button><button data-tab="mine">My bookings</button><button data-tab="rates">Repair rates</button><button data-tab="staff">Staff Login</button></div>
+<section id="customerBook" class="card"><h2>Book a repair</h2><p class="muted">Fill in your details. Our team will review your request.</p><form id="bookingForm"><div class="grid">
+<div class="field"><label for="name">Customer name *</label><input id="name" name="name" required maxlength="80" autocomplete="name"></div>
+<div class="field"><label for="phone">Mobile number *</label><input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9+() -]{10,16}" required maxlength="16" autocomplete="tel"></div>
+<div class="field"><label for="model">Mobile model *</label><input id="model" name="model" required maxlength="100" placeholder="e.g. Redmi Note 12"></div>
+<div class="field"><label for="service">Service type *</label><select id="service" name="service" required><option value="Home repair visit">Home repair visit</option><option value="Mobile pickup and delivery">Mobile pickup and delivery</option><option value="Shop visit">Shop visit</option></select></div>
+<div class="field full"><label for="problem">Problem description *</label><textarea id="problem" name="problem" required maxlength="1000" placeholder="Describe the mobile problem"></textarea></div>
+<div class="field full"><label for="address">Full address *</label><textarea id="address" name="address" required maxlength="500" placeholder="House, area, landmark"></textarea></div>
+<div class="field"><label for="date">Preferred date *</label><input id="date" name="date" type="date" required></div>
+<div class="field"><label for="slot">Preferred time slot *</label><select id="slot" name="slot" required><option value="9 AM - 12 PM">9 AM - 12 PM</option><option value="12 PM - 3 PM">12 PM - 3 PM</option><option value="3 PM - 6 PM">3 PM - 6 PM</option><option value="6 PM - 8 PM">6 PM - 8 PM</option></select></div>
+</div><button class="primary" id="submitBooking" type="submit">Send booking request</button></form></section>
+<section id="myBookings" class="card hidden"><h2>My bookings</h2><p class="muted">Bookings submitted from this browser are shown here.</p><div id="mineList"><div class="empty">Loading bookings…</div></div></section>
+<section id="ratesPanel" class="card hidden"><h2>Repair rates</h2><p class="muted">Indicative prices; final cost is confirmed after inspection.</p><div id="publicRates"><div class="empty">Loading rates…</div></div></section>
+<section id="staffPanel" class="card hidden"><div id="staffLogin"><h2>Staff / Admin Login</h2><p class="muted">Admin access only.</p><form id="loginForm"><div class="field"><label for="email">Admin email</label><input id="email" type="email" autocomplete="username" required></div><div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" required></div><button class="primary" type="submit">Login</button></form></div><div id="adminPanel" class="hidden"><h2>Admin Dashboard</h2><p id="adminIdentity" class="muted"></p><button id="logout" class="small" type="button">Log out</button><div class="nav" id="adminNav"><button class="active" data-admin-tab="bookings">Bookings</button><button data-admin-tab="rates">Rates</button><button data-admin-tab="techs">Technicians</button><button data-admin-tab="stock">Spare-parts stock</button></div><div id="adminBookings"></div><div id="adminRates" class="hidden"></div><div id="adminTechs" class="hidden"></div><div id="adminStock" class="hidden"></div></div></section>
+<footer>Vishwa Mobile Service · Mobile repair at your door</footer>
+</main>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-// ===== Firebase settings (public web config, safe to keep here; security comes from Firestore rules) =====
-const cfg={apiKey:"AIzaSyCLWOkNMHg-OANEOf2s-uszhwlitn_6OmM",authDomain:"vishwa-mobile-service.firebaseapp.com",projectId:"vishwa-mobile-service",storageBucket:"vishwa-mobile-service.firebasestorage.app",messagingSenderId:"487507469853",appId:"1:487507469853:web:2d24c9374b3d36fc14c8f4"};
-// ======================================================================
-const BASES=['https://www.gstatic.com/firebasejs/10.12.2/firebase-','https://cdn.jsdelivr.net/npm/firebase@10.12.2/firebase-'];
-const LIBS=['app','auth','firestore'];
-function showErr(t){let d=document.getElementById('err');if(!d){d=document.createElement('div');d.id='err';d.style.cssText='position:fixed;top:0;left:0;right:0;z-index:99;background:#b42318;color:#fff;padding:12px;font-size:14px;word-break:break-word';document.body.prepend(d)}d.textContent='Error: '+t+'  (tap to close)';d.onclick=()=>d.remove()}
-window.addEventListener('error',e=>showErr(e.message||'Unknown error'));
-window.addEventListener('unhandledrejection',e=>showErr((e.reason&&(e.reason.code||'')+' '+(e.reason.message||e.reason))||'Unknown'));
-function loadJs(src){return new Promise((ok,no)=>{const s=document.createElement('script');const t=setTimeout(()=>no(new Error('timeout '+src)),10000);s.src=src;s.onload=()=>{clearTimeout(t);ok()};s.onerror=()=>{clearTimeout(t);no(new Error('blocked '+src))};document.head.append(s)})}
-function msg(t){document.getElementById('app').innerHTML='<div class="card"><h2>Setup needed</h2>'+t+'</div>'}
-async function boot(){
- if(Object.values(cfg).some(v=>!v||String(v).startsWith('PASTE'))){
-  msg('<p>Your Firebase settings are not added yet. Open <b>index.html</b>, find the line starting with <b>const cfg</b>, and replace each PASTE_... text with the matching value from Firebase (Project settings, Your apps, Web app).</p>');return}
- for(const b of BASES){
-  try{for(const l of LIBS)await loadJs(b+l+'-compat.js');if(window.firebase&&firebase.auth&&firebase.firestore)break}catch(e){}}
- if(!(window.firebase&&firebase.auth&&firebase.firestore)){
-  msg('<p>Could not load Firebase. Check your internet. If you are in a preview window, publish the app on GitHub Pages and open it there.</p>');return}
- const code=document.getElementById('appcode');if(!code){showErr('App code missing in index.html');return}
- const s=document.createElement('script');s.textContent=code.textContent;document.body.append(s)}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+const firebaseConfig={apiKey:"AIzaSyCLWOkNMHg-OANEOf2s-uszhwlitn_6OmM",authDomain:"vishwa-mobile-service.firebaseapp.com",projectId:"vishwa-mobile-service",storageBucket:"vishwa-mobile-service.firebasestorage.app",messagingSenderId:"487507469853",appId:"1:487507469853:web:2d24c9374b3d36fc14c8f4",measurementId:"G-BWSS11C2PB"};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth(),db=firebase.firestore();
+let me=null,isAdmin=false,bookingUnsub=null,rateUnsub=null,adminBookingUnsub=null,techUnsub=null,stockUnsub=null,rateCache=[],techCache=[],stockCache=[],adminBookingsCache=[],sentMessage='',activeTab='book',adminTab='bookings';
+const statuses=['Pending','Approved','Technician on the way','Device picked up','Repairing','Ready for delivery','Completed','Rejected'];
+const $=id=>document.getElementById(id);
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function notice(message,type='ok'){const n=$('notice');n.innerHTML=message?`<div class="${type}">${esc(message)}</div>`:'';if(message)window.scrollTo({top:0,behavior:'smooth'})}
+function dateText(v){if(!v)return '—';if(typeof v==='string')return esc(v);if(v.toDate)return esc(v.toDate().toLocaleString());return esc(v)}
+function setTab(tab){activeTab=tab;['book','mine','rates','staff'].forEach(t=>{const id={book:'customerBook',mine:'myBookings',rates:'ratesPanel',staff:'staffPanel'}[t];$(id).classList.toggle('hidden',t!==tab)});document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='mine')loadMine();if(tab==='rates')loadRates();if(tab==='staff'&&isAdmin)showAdmin()}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>setTab(b.dataset.tab)));
+function stopSub(name){if(name&&typeof name==='function')name()}
+function startCustomer(){if(!me||me.isAnonymous===false)return;if(bookingUnsub){bookingUnsub();bookingUnsub=null}bookingUnsub=db.collection('bookings').where('uid','==',me.uid).onSnapshot(s=>{const list=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{const aa=a.createdAt?.toMillis?.()||0,bb=b.createdAt?.toMillis?.()||0;return bb-aa});renderMine(list)},e=>{console.error(e);$('mineList').innerHTML='<div class="error">Could not load bookings. Please refresh and try again.</div>'})}
+auth.onAuthStateChanged(async user=>{me=user;if(!user){try{await auth.signInAnonymously()}catch(e){console.error(e);notice('Unable to connect to Firebase. Check internet and Firebase Anonymous sign-in settings.','error')}return}if(!user.isAnonymous){try{const a=await db.collection('admins').doc(user.uid).get();isAdmin=a.exists;if(!isAdmin){await auth.signOut();notice('This account is not listed as an administrator.','error');return}showAdmin()}catch(e){isAdmin=false;notice('Admin verification failed: '+e.message,'error')}}else{isAdmin=false;startCustomer()} });
+$('bookingForm').addEventListener('submit',async e=>{e.preventDefault();if(!me||!me.isAnonymous){notice('Please wait a moment and try again.','error');return}const form=e.currentTarget,btn=$('submitBooking'),o=Object.fromEntries(new FormData(form));btn.disabled=true;btn.textContent='Sending…';notice('');try{const ref=await db.collection('bookings').add({uid:me.uid,name:o.name.trim(),phone:o.phone.trim(),model:o.model.trim(),problem:o.problem.trim(),service:o.service,address:o.address.trim(),date:o.date,slot:o.slot,status:'Pending',tech:null,createdAt:firebase.firestore.FieldValue.serverTimestamp()});sentMessage='Your booking request has been sent to Vishwa Mobile Service. Please wait for approval. Booking ID: '+ref.id;form.reset();notice(sentMessage,'ok');setTab('mine')}catch(err){console.error(err);notice('Booking could not be submitted: '+err.message,'error')}finally{btn.disabled=false;btn.textContent='Send booking request'}});
+function renderMine(list){const box=$('mineList');if(!list.length){box.innerHTML='<div class="empty">No bookings yet. Submit a repair request to see it here.</div>';return}box.innerHTML=list.map(b=>`<div class="item"><span class="badge">${esc(b.status||'Pending')}</span><h3>${esc(b.model||'Mobile repair')}</h3><div><b>Booking ID:</b> ${esc(b.id)}</div><div><b>Name:</b> ${esc(b.name)}</div><div><b>Phone:</b> ${esc(b.phone)}</div><div><b>Problem:</b> ${esc(b.problem)}</div><div><b>Service:</b> ${esc(b.service)}</div><div><b>Address:</b> ${esc(b.address)}</div><div><b>Date:</b> ${dateText(b.date)} · ${esc(b.slot||'')}</div><div><b>Technician:</b> ${esc(b.techName||'Not assigned yet')}</div>${b.adminNote?`<div><b>Admin note:</b> ${esc(b.adminNote)}</div>`:''}</div>`).join('')}
+function loadMine(){if(!me||me.isAnonymous!==true){$('mineList').innerHTML='<div class="empty">Connecting…</div>';return}if(!bookingUnsub)startCustomer()}
+function loadRates(){if(rateUnsub)return;rateUnsub=db.collection('rates').onSnapshot(s=>{rateCache=s.docs.map(d=>({id:d.id,...d.data()}));renderRates();const box=$('publicRates');box.innerHTML=rateCache.length?rateCache.map(r=>`<div class="item"><b>${esc(r.name||r.service||'Repair service')}</b><div>${esc(r.description||'')}</div><strong>₹${esc(r.price??'Contact for price')}</strong></div>`).join(''):'<div class="empty">Rates will be updated soon.</div>'},e=>{$('publicRates').innerHTML='<div class="error">Could not load rates.</div>';console.error(e)})}
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.currentTarget.querySelector('button');btn.disabled=true;btn.textContent='Checking…';try{await auth.signInWithEmailAndPassword($('email').value.trim(),$('password').value)}catch(err){notice('Login failed: '+err.message,'error')}finally{btn.disabled=false;btn.textContent='Login'}});
+$('logout').addEventListener('click',async()=>{isAdmin=false;stopSub(adminBookingUnsub);adminBookingUnsub=null;stopSub(techUnsub);techUnsub=null;stopSub(stockUnsub);stockUnsub=null;await auth.signOut();setTab('book');notice('You have logged out.','ok')});
+function showAdmin(){if(!isAdmin)return;$('staffLogin').classList.add('hidden');$('adminPanel').classList.remove('hidden');$('adminIdentity').textContent='Signed in as '+(auth.currentUser?.email||'administrator');startAdminData();setAdminTab(adminTab)}
+function startAdminData(){if(!isAdmin)return;if(!adminBookingUnsub)adminBookingUnsub=db.collection('bookings').onSnapshot(s=>{adminBookingsCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.toMillis?.()||0)-(a.createdAt?.toMillis?.()||0));renderAdminBookings()},e=>{console.error(e);$('adminBookings').innerHTML='<div class="error">Could not load bookings: '+esc(e.message)+'</div>'});if(!techUnsub)techUnsub=db.collection('technicians').onSnapshot(s=>{techCache=s.docs.map(d=>({id:d.id,...d.data()}));renderAdminBookings();renderTechs()},e=>console.error(e));if(!stockUnsub)stockUnsub=db.collection('stock').onSnapshot(s=>{stockCache=s.docs.map(d=>({id:d.id,...d.data()}));renderStock()},e=>console.error(e));if(!rateUnsub)loadRates();renderRates()}
+document.querySelectorAll('#adminNav button').forEach(b=>b.addEventListener('click',()=>setAdminTab(b.dataset.adminTab)));
+function setAdminTab(tab){adminTab=tab;['bookings','rates','techs','stock'].forEach(t=>{$('admin'+t[0].toUpperCase()+t.slice(1)).classList.toggle('hidden',t!==tab)});document.querySelectorAll('#adminNav button').forEach(b=>b.classList.toggle('active',b.dataset.adminTab===tab));if(tab==='bookings')renderAdminBookings();if(tab==='rates')renderRates();if(tab==='techs')renderTechs();if(tab==='stock')renderStock()}
+function renderAdminBookings(){const box=$('adminBookings');if(!isAdmin)return;if(!adminBookingsCache.length){box.innerHTML='<div class="empty">No bookings received yet.</div>';return}box.innerHTML=adminBookingsCache.map(b=>{const selected=techCache.map(t=>`<option value="${esc(t.id)}" ${b.tech===t.id?'selected':''}>${esc(t.name||'Technician')}</option>`).join('');const next=statuses.map(s=>`<option value="${esc(s)}" ${b.status===s?'selected':''}>${esc(s)}</option>`).join('');return `<div class="item"><span class="badge">${esc(b.status||'Pending')}</span><h3>${esc(b.model||'Mobile repair')} — ${esc(b.name)}</h3><div><b>Booking ID:</b> ${esc(b.id)}</div><div><b>Phone:</b> ${esc(b.phone)}</div><div><b>Problem:</b> ${esc(b.problem)}</div><div><b>Service:</b> ${esc(b.service)}</div><div><b>Address:</b> ${esc(b.address)}</div><div><b>Preferred:</b> ${dateText(b.date)} · ${esc(b.slot||'')}</div><div class="field"><label>Assign technician</label><select id="tech-${esc(b.id)}"><option value="">Not assigned</option>${selected}</select></div><div class="field"><label>Booking status</label><select id="status-${esc(b.id)}">${next}</select></div><div class="field"><label>Admin note (optional)</label><input id="note-${esc(b.id)}" value="${esc(b.adminNote||'')}" maxlength="250" placeholder="Short update for customer"></div><div class="actions"><button class="small" onclick="saveBooking('${esc(b.id)}')">Save / Approve</button><button class="danger" onclick="rejectBooking('${esc(b.id)}')">Reject booking</button></div></div>`}).join('')}
+async function saveBooking(id){const techId=$('tech-'+id).value,status=$('status-'+id).value,adminNote=$('note-'+id).value.trim();const tech=techCache.find(t=>t.id===techId);try{await db.collection('bookings').doc(id).update({status,tech:techId||null,techName:tech?.name||null,adminNote,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});notice('Booking updated successfully.','ok')}catch(e){notice('Could not update booking: '+e.message,'error')}}
+async function rejectBooking(id){if(!confirm('Reject this booking?'))return;try{await db.collection('bookings').doc(id).update({status:'Rejected',updatedAt:firebase.firestore.FieldValue.serverTimestamp()});notice('Booking rejected.','ok')}catch(e){notice('Could not reject booking: '+e.message,'error')}}
+function renderRates(){const box=$('adminRates');if(!box)return;box.innerHTML=`<h3 class="section-title">Add repair rate</h3><form id="rateForm"><div class="field"><label>Repair / service name</label><input name="name" required maxlength="100"></div><div class="field"><label>Description (optional)</label><input name="description" maxlength="200"></div><div class="field"><label>Price (₹)</label><input name="price" type="number" min="0" step="1" required></div><button class="primary" type="submit">Add rate</button></form><h3 class="section-title">Current rates</h3>${rateCache.map(r=>`<div class="item"><b>${esc(r.name)}</b> — ₹${esc(r.price)}<div class="muted">${esc(r.description||'')}</div><button class="danger" onclick="deleteDoc('rates','${esc(r.id)}')">Delete</button></div>`).join('')||'<div class="empty">No rates added yet.</div>'}`;const f=$('rateForm');if(f)f.addEventListener('submit',async e=>{e.preventDefault();const o=Object.fromEntries(new FormData(f));try{await db.collection('rates').add({name:o.name.trim(),description:o.description.trim(),price:Number(o.price),createdAt:firebase.firestore.FieldValue.serverTimestamp()});f.reset();notice('Rate added.','ok')}catch(x){notice('Could not add rate: '+x.message,'error')}})}
+function renderTechs(){const box=$('adminTechs');if(!box)return;box.innerHTML=`<h3 class="section-title">Add technician</h3><form id="techForm"><div class="field"><label>Technician name</label><input name="name" required maxlength="80"></div><div class="field"><label>Phone</label><input name="phone" type="tel" maxlength="16"></div><div class="field"><label>Area / notes</label><input name="area" maxlength="150"></div><button class="primary" type="submit">Add technician</button></form><h3 class="section-title">Technicians</h3>${techCache.map(t=>`<div class="item"><b>${esc(t.name)}</b><div>${esc(t.phone||'')} · ${esc(t.area||'')}</div><button class="danger" onclick="deleteDoc('technicians','${esc(t.id)}')">Delete</button></div>`).join('')||'<div class="empty">No technicians added yet.</div>'}`;const f=$('techForm');if(f)f.addEventListener('submit',async e=>{e.preventDefault();const o=Object.fromEntries(new FormData(f));try{await db.collection('technicians').add({name:o.name.trim(),phone:o.phone.trim(),area:o.area.trim(),createdAt:firebase.firestore.FieldValue.serverTimestamp()});f.reset();notice('Technician added.','ok')}catch(x){notice('Could not add technician: '+x.message,'error')}})}
+function renderStock(){const box=$('adminStock');if(!box)return;box.innerHTML=`<h3 class="section-title">Add spare part</h3><form id="stockForm"><div class="field"><label>Part name</label><input name="name" required maxlength="100"></div><div class="grid"><div class="field"><label>Quantity</label><input name="qty" type="number" min="0" step="1" required></div><div class="field"><label>Unit / notes</label><input name="unit" maxlength="50" placeholder="pcs"></div></div><button class="primary" type="submit">Add stock item</button></form><h3 class="section-title">Stock list</h3>${stockCache.map(s=>`<div class="item"><b>${esc(s.name)}</b><div>Quantity: ${esc(s.qty)} ${esc(s.unit||'')}</div><button class="small" onclick="editStock('${esc(s.id)}',${Number(s.qty)||0})">Change quantity</button><button class="danger" onclick="deleteDoc('stock','${esc(s.id)}')">Delete</button></div>`).join('')||'<div class="empty">No spare parts entered yet.</div>'}`;const f=$('stockForm');if(f)f.addEventListener('submit',async e=>{e.preventDefault();const o=Object.fromEntries(new FormData(f));try{await db.collection('stock').add({name:o.name.trim(),qty:Number(o.qty),unit:o.unit.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});f.reset();notice('Stock item added.','ok')}catch(x){notice('Could not add stock: '+x.message,'error')}})}
+async function editStock(id,current){const raw=prompt('Enter new quantity',String(current));if(raw===null)return;const qty=Number(raw);if(!Number.isInteger(qty)||qty<0){notice('Enter a valid whole number quantity.','error');return}try{await db.collection('stock').doc(id).update({qty,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});notice('Stock quantity updated.','ok')}catch(e){notice('Could not update stock: '+e.message,'error')}}
+async function deleteDoc(collection,id){if(!confirm('Delete this item?'))return;try{await db.collection(collection).doc(id).delete();notice('Item deleted.','ok')}catch(e){notice('Could not delete item: '+e.message,'error')}}
+setTab('book');
 </script>
-<script type="text/plain" id="appcode">
-firebase.initializeApp(cfg);const auth=firebase.auth(),db=firebase.firestore();
-const $=s=>document.querySelector(s);
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const STEPS=['Pending','Approved','Technician on the way','Device picked up','Repairing','Ready for delivery','Completed'];
-const SLOTS=['9 AM - 12 PM','12 PM - 3 PM','3 PM - 6 PM','6 PM - 8 PM'];
-let me=null,admin=false,tab='book',sent=false,login=false,unsubs=[],D={bookings:[],rates:[],technicians:[],stock:[]};
-function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),3500)}
-function listen(c,q){return (q||db.collection(c)).onSnapshot(s=>{D[c]=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>toast(e.message))}
-auth.onAuthStateChanged(async u=>{try{unsubs.forEach(f=>f());unsubs=[];
- if(!u){try{await auth.signInAnonymously()}catch(e){$('#app').innerHTML='<div class="card"><h2>Could not start</h2><p>Anonymous sign-in failed ('+esc(e.code||e.message)+'). In Firebase, open Authentication, then Sign-in method, and make sure <b>Anonymous</b> is enabled. Also check your internet.</p><button onclick="location.reload()">Try again</button></div>'}return}
- me=u;admin=false;
- if(!u.isAnonymous){const a=await db.doc('admins/'+u.uid).get();admin=a.exists;if(!admin){toast('This account is not an admin.');await auth.signOut();return}}
- unsubs.push(listen('rates'));
- if(admin){['bookings','technicians','stock'].forEach(c=>unsubs.push(listen(c)));tab='bookings';login=false}
- else{unsubs.push(listen('bookings',db.collection('bookings').where('uid','==',u.uid)));if(tab==='bookings')tab='book'}
- render()}catch(e){showErr('Startup error: '+(e.code||'')+' '+e.message)}});
-function go(t){tab=t;sent=false;login=false;render()}
-function render(){if(!me)return;
- $('#who').innerHTML=admin?'<button class="s" style="margin:0" onclick="auth.signOut()">Log out</button>':'';
- $('#sub').textContent=admin?'Admin dashboard':'Mobile repair at your door';
- const tabs=admin?[['bookings','Bookings'],['rates','Rates'],['technicians','Technicians'],['stock','Stock']]:[['book','Book repair'],['mine','My bookings']];
- $('#nav').innerHTML=tabs.map(([k,l])=>`<a href="#" class="${tab===k&&!login?'on':''}" onclick="go('${k}');return false">${l}</a>`).join('');
- const v={book:bookV,mine:mineV,bookings:adminBookV,rates:ratesV,technicians:techV,stock:stockV};
- $('#app').innerHTML=login?loginV():v[tab]()+(admin?'':'<p style="text-align:center"><a href="#" onclick="login=true;render();return false" class="mu">Staff login</a></p>')}
-function bookV(){const today=new Date().toISOString().slice(0,10);
- return (sent?'<div class="ok">Your booking request has been sent to Vishwa Mobile Service. Please wait for approval.</div>':'')+
- `<form class="card" onsubmit="book(event)"><h2>Book a repair</h2>
- <label>Service</label><select name="service"><option value="home">Home repair - technician visits you</option><option value="pickup">Pickup and delivery</option></select>
- <label>Your name</label><input name="name" required><label>Phone number</label><input name="phone" type="tel" pattern="[0-9+ ]{10,15}" required>
- <label>Mobile model</label><input name="model" placeholder="e.g. Redmi Note 11" required>
- <label>Repair problem</label><input name="problem" list="rl" placeholder="e.g. Screen broken" required><datalist id="rl">${D.rates.map(r=>`<option value="${esc(r.name)}">`).join('')}</datalist>
- <label>Address</label><textarea name="address" rows="2" required></textarea>
- <div class="row"><div><label>Date</label><input name="date" type="date" min="${today}" required></div><div><label>Time slot</label><select name="slot">${SLOTS.map(s=>`<option>${s}</option>`).join('')}</select></div></div>
- <button class="w">Send booking request</button></form>`+
- (D.rates.length?`<div class="card"><h2>Repair rates</h2>${D.rates.map(r=>`<div class="li"><span>${esc(r.name)}</span><b>Rs ${esc(r.price)}</b></div>`).join('')}<p class="mu">Final price is confirmed after checking your phone.</p></div>`:'')}
-async function book(e){e.preventDefault();const o=Object.fromEntries(new FormData(e.target));
- try{await db.collection('bookings').add({uid:me.uid,name:o.name.trim(),phone:o.phone.trim(),model:o.model.trim(),problem:o.problem.trim(),service:o.service,address:o.address.trim(),date:o.date,slot:o.slot,status:'Pending',tech:null,createdAt:firebase.firestore.FieldValue.serverTimestamp()});sent=true;render();scrollTo(0,0)}catch(x){toast('Could not send: '+x.message)}}
-const byNew=a=>[...a].sort((x,y)=>(y.createdAt?.seconds||9e9)-(x.createdAt?.seconds||9e9));
-function bar(s){const i=STEPS.indexOf(s);return i<0?'':`<div class="bar"><i style="width:${(i+1)/STEPS.length*100}%"></i></div>`}
-function mineV(){if(!D.bookings.length)return '<div class="card"><h2>No bookings yet</h2><p class="mu">Tap Book repair to send your first request.</p></div>';
- return byNew(D.bookings).map(b=>`<div class="card"><span class="badge ${b.status==='Rejected'?'x':''}">${esc(b.status)}</span>${bar(b.status)}
- <b>${esc(b.model)}</b> - ${esc(b.problem)}<br><span class="mu">${b.service==='home'?'Home repair':'Pickup and delivery'} - ${esc(b.date)}, ${esc(b.slot)}</span>
- ${b.status==='Pending'?'<p class="mu">Waiting for approval from Vishwa Mobile Service.</p>':''}
- ${b.status==='Rejected'?'<p class="mu">Sorry, this request could not be accepted. Please book another slot or call us.</p>':''}
- ${b.tech?`<p>Technician: <b>${esc(b.tech.name)}</b><br><a href="tel:${esc(b.tech.phone)}">${esc(b.tech.phone)}</a></p>`:''}</div>`).join('')}
-function loginV(){return `<form class="card" onsubmit="doLogin(event)"><h2>Admin login</h2><label>Email</label><input name="e" type="email" required><label>Password</label><input name="p" type="password" required><button class="w">Log in</button><button type="button" class="s w" onclick="login=false;render()">Back</button></form>`}
-async function doLogin(e){e.preventDefault();const f=new FormData(e.target);try{await auth.signInWithEmailAndPassword(f.get('e'),f.get('p'))}catch(x){toast('Login failed: '+x.message)}}
-function adminBookV(){if(!D.bookings.length)return '<div class="card"><h2>No bookings yet</h2></div>';
- return byNew(D.bookings).map(b=>`<div class="card"><span class="badge ${b.status==='Rejected'?'x':''}">${esc(b.status)}</span>
- <p><b>${esc(b.name)}</b> - <a href="tel:${esc(b.phone)}">${esc(b.phone)}</a><br>${esc(b.model)} - ${esc(b.problem)}<br>
- <span class="mu">${b.service==='home'?'Home repair':'Pickup and delivery'} - ${esc(b.date)}, ${esc(b.slot)}<br>${esc(b.address)}</span></p>
- ${b.tech?`<p class="mu">Technician: ${esc(b.tech.name)} (${esc(b.tech.phone)})</p>`:''}
- ${b.status==='Pending'?`<label>Assign technician</label><select id="t${b.id}"><option value="">Choose technician</option>${D.technicians.map(t=>`<option value="${t.id}">${esc(t.name)}</option>`).join('')}</select>
- <button class="s" onclick="approve('${b.id}')">Approve</button><button class="s r" onclick="upd('${b.id}','Rejected')">Reject</button>`
- :b.status==='Rejected'?'':`<label>Repair status</label><select onchange="upd('${b.id}',this.value)">${STEPS.slice(1).map(s=>`<option ${s===b.status?'selected':''}>${s}</option>`).join('')}</select>`}</div>`).join('')}
-async function upd(id,s){try{await db.doc('bookings/'+id).update({status:s})}catch(x){toast(x.message)}}
-async function approve(id){const t=D.technicians.find(x=>x.id===$('#t'+id).value);if(!t)return toast('Add technicians first, then choose one.');
- try{await db.doc('bookings/'+id).update({status:'Approved',tech:{name:t.name,phone:t.phone}})}catch(x){toast(x.message)}}
-async function add(e,c,f){e.preventDefault();const o={};f.forEach(k=>o[k]=e.target[k].value.trim());if(c==='stock')o.qty=Number(o.qty);
- try{await db.collection(c).add(o);e.target.reset()}catch(x){toast(x.message)}}
-async function del(c,id){if(confirm('Delete this item?'))db.doc(c+'/'+id).delete().catch(x=>toast(x.message))}
-async function edit(c,id,k,cur){const v=prompt('New value',cur);if(v===null)return;db.doc(c+'/'+id).update({[k]:k==='qty'?Number(v):v.trim()}).catch(x=>toast(x.message))}
-function ratesV(){return `<form class="card" onsubmit="add(event,'rates',['name','price'])"><h2>Add repair rate</h2><label>Repair name</label><input name="name" required><label>Price (Rs)</label><input name="price" type="number" min="0" required><button class="w">Add rate</button></form>
- <div class="card"><h2>Rates</h2>${D.rates.map(r=>`<div class="li"><span>${esc(r.name)}<br><b>Rs ${esc(r.price)}</b></span><span><button class="s" onclick="edit('rates','${r.id}','price','${esc(r.price)}')">Change</button><button class="s r" onclick="del('rates','${r.id}')">Delete</button></span></div>`).join('')||'<p class="mu">No rates yet.</p>'}</div>`}
-function techV(){return `<form class="card" onsubmit="add(event,'technicians',['name','phone'])"><h2>Add technician</h2><label>Name</label><input name="name" required><label>Phone</label><input name="phone" type="tel" required><button class="w">Add technician</button></form>
- <div class="card"><h2>Technicians</h2>${D.technicians.map(t=>`<div class="li"><span>${esc(t.name)}<br><span class="mu">${esc(t.phone)}</span></span><button class="s r" onclick="del('technicians','${t.id}')">Delete</button></div>`).join('')||'<p class="mu">No technicians yet.</p>'}</div>`}
-function stockV(){return `<form class="card" onsubmit="add(event,'stock',['name','qty'])"><h2>Add spare part</h2><label>Part name</label><input name="name" placeholder="e.g. Redmi Note 11 screen" required><label>Quantity</label><input name="qty" type="number" min="0" required><button class="w">Add part</button></form>
- <div class="card"><h2>Spare-parts stock</h2>${D.stock.map(s=>`<div class="li"><span>${esc(s.name)}<br><b ${s.qty<3?'style="color:#b42318"':''}>${esc(s.qty)} in stock</b></span><span><button class="s" onclick="edit('stock','${s.id}','qty','${esc(s.qty)}')">Change</button><button class="s r" onclick="del('stock','${s.id}')">Delete</button></span></div>`).join('')||'<p class="mu">No parts yet.</p>'}</div>`}
-if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-</script></body></html>
+</body></html>
